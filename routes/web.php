@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\LevelController;
 use App\Http\Controllers\Admin\ProjectUserController;
+use App\Http\Controllers\IncidentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,14 +28,14 @@ Route::get('/', function () {
 
 
 
-Route::get('/reportar', [DashboardController::class, 'getReport'])->middleware('auth');
-Route::post('/reportar', [DashboardController::class, 'postReport'])->middleware('auth');
+Route::get('/reportar', [IncidentController::class, 'create'])->middleware(['auth']);
+Route::post('/reportar', [IncidentController::class, 'store'])->middleware(['auth']);
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/ver/{id}', [IncidentController::class, 'show'])->middleware(['auth']);
 
+Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth'])->name('dashboard');
 
+Route::get('/seleccionar/proyecto/{id}', [DashboardController::class,'selectProject']);
 
 Route::group(['Middleware'=>'auth','namespace'=>'Admin'], function(){
 //user

@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Incident;
-use Illuminate\Support\Facades\DB;
+use App\Models\ProjectUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -13,56 +15,42 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-
     }
-/**
- * show the applcation dashboard
- *
- * @return Illuminate\Http\Response;
- *
- */
-public function index()
-{
-        return view('dashboard');
-}
-
-public function getReport(){
-
-        $categories = DB::table('categories')->where('project_id','=', 1)->get();
-
-        return view('report', ['categories' => $categories]);
-}
-public function postReport(Request $request)
-{
-
-    $rules=[
-        'category_id' =>'sometimes|exists:categories,id',
-        'severity'=>'required|in:M,N,A',
-        'title'=>'required|min:5',
-        'description'=>'required|min:15'
-    ];
-$messages =[
-'category_id.exists' => 'La categoría seleccionada no existe en nuestra base de datos',
-'title.required' =>'Es necesario ingresar un título para la incidencia',
-'title.min'=>'el título debe tener al menos 5 caracteres',
-'description.required'=>'Es necesario ingresar una descripción para la incidencia',
-'description.min'=> 'La descripción debe tener mínimo 15 caracteres'
 
 
-];
 
+    /**
+     * show the applcation dashboard
+     *
+     * @return Illuminate\Http\Response;
+     *
+     */
+    public function index()
+    {
+        $user = Auth::user();
+        $select_project_id = $user->select_project_id;
 
-$this->validate($request,$rules,$messages);
+        if ($user->is_support) {
+            $my_incidents = Incident::where('project_id', $select_project_id)->where('support_id', $user->id)->get();
 
-    $incident= new Incident();
-    $incident->category_id=$request->input('category_id') ?:null;
-    $incident->severity=$request->input('severity') ;
-    $incident->title=$request->input('title') ;
-    $incident->description=$request->input('description');
-    $incident->client_id=auth()->user()->id;
-    $incident->save();
-return back();
+            $projectUser = ProjectUser::where('project_id', $select_project_id)->where('user_id', $user->id)->first();
 
-}
+            $pending_incidents = Incident::where('support_id', null)->where('level_id', $projectUser->level_id)->get();
 
+            $incidents_by_me = Incident::where('client_id', $user->id)->where('project_id', $select_project_id)->get();
+            return view('dashboard')->with(compact('my_incidents', 'pending_incidents', 'incidents_by_me'));
+        }
+        $incidents_by_me = Incident::where('client_id', $user->id)->where('project_id', $select_project_id)->get();
+
+        return view('dashboard')->with(compact( 'incidents_by_me'));
+    }
+
+    public function selectProject($id)
+    {
+        $user = Auth::user();
+
+        $user->select_project_id = $id;
+        $user->save();
+        return back();
+    }
 }

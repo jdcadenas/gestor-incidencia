@@ -35,11 +35,11 @@
             <li class="mr-3">
 
 
-                    <select name="project_id" id="select-project" class="inline-block border bg-white rounded md:flex outline-none text-gray-700" >
+                    <select name="project_id" id="list-of-project" class="inline-block border bg-white rounded md:flex outline-none text-gray-700" >
                         <option  value="">Seleccione Proyecto</option>
 
                         @foreach ( Auth::user()->list_of_projects as $project)
-                          <option class="py-1" value="{{$project->id}}">{{$project->name}}</option>
+                          <option class="py-1" value="{{$project->id}}" @if($project->id==Auth::user()->select_project_id)selected @endif>{{$project->name}}</option>
                         @endforeach
                     </select>
 

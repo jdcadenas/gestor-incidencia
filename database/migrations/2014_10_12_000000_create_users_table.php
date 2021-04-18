@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->smallInteger('role')->default('2');// 0 admin; 1suppor; 3 client
+            $table->foreignId('select_project_id')->nullable()->constrained('projects');
             $table->rememberToken();
             $table->softDeletes();
             $table->timestamps();

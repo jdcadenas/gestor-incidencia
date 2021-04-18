@@ -43,24 +43,32 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-//relationships
-public function projects(){
+    //relationships
+    public function projects()
+    {
 
-    return $this->belongsToMany(Project::class);
-
-}
+        return $this->belongsToMany(Project::class);
+    }
     //accesor
 
-    public function getListOfProjectsAttribute(){
-        if($this->role==1)
-        return  $this->projects;
+    public function getListOfProjectsAttribute()
+    {
+        if ($this->role == 1)
+            return  $this->projects;
         return Project::all();
-            }
-
-    public function getIsAdminAttribute(){
-return  $this->role ==0;
     }
-    public function getIsClientAttribute(){
+
+    public function getIsAdminAttribute()
+    {
+        return  $this->role == 0;
+    }
+    public function getIsClientAttribute()
+    {
         return $this->role == 2;
+    }
+
+    public function getIsSupportAttribute()
+    {
+        return $this->role == 1;
     }
 }
