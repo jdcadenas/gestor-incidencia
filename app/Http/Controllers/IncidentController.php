@@ -54,7 +54,7 @@ class IncidentController extends Controller
 
        // dd( $incident->project_id);
         $incident->level_id = Project::find(auth()->user()->select_project_id)->first_level_id;
-      
+
         $incident->save();
         return back();
     }
@@ -62,6 +62,7 @@ class IncidentController extends Controller
     public function show($id)
     {
         $incident=Incident::findOrFail($id);
+
         return view('incidents.show')->with(compact('incident'));
     }
 }

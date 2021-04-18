@@ -12,6 +12,8 @@ class Category extends Model
     use HasFactory;
     use SoftDeletes;
     protected $fillable=['name','project_id'];
+
+
     public function project(){
         return $this->belongsTo(Project::class);
     }

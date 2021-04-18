@@ -1,13 +1,16 @@
 <?php
 
 namespace App\Models;
+use App\Models\Project;
+use App\Models\Category;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\User;
 
 class Incident extends Model
 {
-    use HasFactory;
+   // use HasFactory;
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -48,14 +51,16 @@ class Incident extends Model
 
     public function getCategoryNameAttribute()
     {
-        if(!$this->category)
-            return $this->category()->name;
+
+        if($this->category){
+            return $this->category->name;
+        }
         return 'General';
     }
     public function getSupportNameAttribute()
     {
-        if(!$this->support)
-            return $this->support()->name;
+        if($this->support)
+            return $this->support->name;
         return 'Sin asignar';
     }
 }
