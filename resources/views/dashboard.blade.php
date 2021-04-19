@@ -48,7 +48,7 @@
                     <td>{{ $incident->id}}</td>
                     <td>{{ $incident->category->name}}</td>
                     <td>{{ $incident->severity_full}}</td>
-                    <td>{{ $incident->id}}</td>
+                    <td>{{ $incident->state}}</td>
                     <td>{{ $incident->created_at}}</td>
                     <td>{{ $incident->title_short}}</td>
 
@@ -101,7 +101,7 @@
                 <td>{{ $incident->id}}</td>
                 <td>{{ $incident->category->name}}</td>
                    <td>{{ $incident->severity_full}}</td>
-                   <td>{{ $incident->id}}</td>
+                   <td>{{ $incident->state}}</td>
                    <td>{{ $incident->created_at}}</td>
                    <td>{{ $incident->title_short}}</td>
                 <td> <a class="rounded-full py-1 px-3 m-1 flex items-center text-xs round-full uppercase font-bold leading-snug text-green bg-green-400 hover:opacity-75" href="#pablo">
@@ -157,7 +157,7 @@
                 <td>{{ $incident->id}}</td>
                 <td>{{ $incident->category_name}}</td>
                    <td>{{ $incident->severity_full}}</td>
-                   <td>{{ $incident->id}}</td>
+                   <td>{{ $incident->state}}</td>
                    <td>{{ $incident->created_at}}</td>
                    <td>{{ $incident->title_short}}</td>
                 <td> {{$incident->support_id ?: 'Sin asignar'}}</td>

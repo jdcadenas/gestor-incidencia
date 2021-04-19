@@ -22,13 +22,7 @@ class UsersTableSeeder extends Seeder
             'password' =>bcrypt('123123'),
             'role'=>0
         ]);
-        //support
-        User::factory()->create([
-            'name'=>'María',
-            'email'=>'support@gmail.com',
-            'password' =>bcrypt('123123'),
-            'role'=>1
-        ]);
+
         //admin
         User::factory()->create([
             'name'=>'Claudia',
