@@ -49,6 +49,13 @@ class User extends Authenticatable
 
         return $this->belongsToMany(Project::class);
     }
+
+    public function canTake(Incident $incident)
+    {
+        return ProjectUser::where('user_id',$this->id)
+        ->where('level_id',$incident->level_id)
+        ->first();
+    }
     //accesor
 
     public function getListOfProjectsAttribute()

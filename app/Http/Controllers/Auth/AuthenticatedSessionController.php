@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Auth\LoginRequest;
-use App\Providers\RouteServiceProvider;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Providers\RouteServiceProvider;
+use App\Http\Requests\Auth\LoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -31,14 +32,19 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-if(Auth::user()->is_admin || Auth::user()->is_client){
-    return redirect()->intended(RouteServiceProvider::HOME);
-}
 
         if(!Auth::user()->selected_project_id){
-        Auth::user()->select_project_id = Auth::user()->projects->first()->id;
-        Auth::user()->save();
+            if(Auth::user()->is_admin || Auth::user()->is_client){
+
+                Auth::user()->select_project_id = Project::first()->id;
+
+            }else{
+
+                Auth::user()->select_project_id = Auth::user()->projects->first()->id;
+
+            }
         }
+            Auth::user()->save();
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

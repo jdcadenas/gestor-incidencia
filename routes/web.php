@@ -33,6 +33,16 @@ Route::post('/reportar', [IncidentController::class, 'store'])->middleware(['aut
 
 Route::get('/ver/{id}', [IncidentController::class, 'show'])->middleware(['auth']);
 
+Route::get('/incidencia/{id}/editar', [IncidentController::class, 'edit'])->middleware(['auth']);
+Route::post('/incidencia/{id}/editar', [IncidentController::class, 'update'])->middleware(['auth']);
+
+
+Route::get('/incidencia/{id}/atender', [IncidentController::class, 'take'])->middleware(['auth']);
+Route::get('/incidencia/{id}/resolver', [IncidentController::class, 'solve'])->middleware(['auth']);
+Route::get('/incidencia/{id}/abrir', [IncidentController::class, 'open'])->middleware(['auth']);
+
+Route::get('/incidencia/{id}/derivar', [IncidentController::class, 'nextlevel'])->middleware(['auth']);
+
 Route::get('/dashboard', [DashboardController::class,'index'])->middleware(['auth'])->name('dashboard');
 
 Route::get('/seleccionar/proyecto/{id}', [DashboardController::class,'selectProject']);

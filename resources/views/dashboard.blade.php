@@ -42,10 +42,10 @@
 
                 </tr>
               </thead>
-              <tbody id="dashboard_my_incident"  class="bg-gray-200">
+              <tbody id="dashboard_my_incident"  class="bg-gray-200 text-center">
                     @foreach ($my_incidents as $incident )
                     <tr>
-                    <td>{{ $incident->id}}</td>
+                    <td class="text-blue-500"><a href="/ver/{{ $incident->id}}">{{ $incident->id}}</a></td>
                     <td>{{ $incident->category->name}}</td>
                     <td>{{ $incident->severity_full}}</td>
                     <td>{{ $incident->state}}</td>
@@ -98,7 +98,7 @@
               <tbody id="dashboard_pending_incident"  class="bg-gray-200">
                 @foreach ($pending_incidents as $incident )
                 <tr>
-                <td>{{ $incident->id}}</td>
+                        <td class="text-blue-500" ><a href="/ver/{{ $incident->id}}">{{ $incident->id}}</a></td>
                 <td>{{ $incident->category->name}}</td>
                    <td>{{ $incident->severity_full}}</td>
                    <td>{{ $incident->state}}</td>
@@ -154,7 +154,7 @@
               <tbody id="dashboard_by_me"  class="bg-gray-200">
                 @foreach ($incidents_by_me as $incident )
                 <tr>
-                <td>{{ $incident->id}}</td>
+                <td class="text-blue-500"><a href="/ver/{{ $incident->id}}">{{ $incident->id}}</a></td>
                 <td>{{ $incident->category_name}}</td>
                    <td>{{ $incident->severity_full}}</td>
                    <td>{{ $incident->state}}</td>
